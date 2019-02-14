@@ -69,15 +69,22 @@ html, body {
     position: relative;
     align-items: center;
     border-radius: 15px;
+    transform: rotateY(0);
+    transition-timing-function: ease;
+    transition: 0.4s;
 }
 
 .card.open {
+    transform: rotateY(180deg);
+    transition-timing-function: ease;
+    transition: 0.4s;
     background-color: #26a69a;
 }
 
 .card i {
     margin: auto;
     color: #fff;
+    transform: rotateY(180deg);
 }
 
 .card i.hidden {
