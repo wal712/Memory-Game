@@ -38,13 +38,14 @@ html, body {
 }
 
 .board {
-    width: 60%;
+    width: 70%;
     height: 450px;
     padding: 2%;
     background: url(../imgs/Virgin.jpg) no-repeat center center;
     background-size: cover;
     display: flex;
     flex-wrap: wrap;
+    border-radius: 10px;
 }
 
 .card {
@@ -59,4 +60,5 @@ html, body {
 
 .card i {
     margin: auto;
+    color: #fff;
 }
