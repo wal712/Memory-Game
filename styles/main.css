@@ -8,6 +8,7 @@ html, body {
     width: 100%;
     height: 100%;
     font-family: 'Inconsolata', monospace;
+    background-color: #fafafa;
 }
 
 @media screen and (min-width: 920px) {
@@ -63,14 +64,22 @@ html, body {
     width: 21%;
     height: 21%;
     margin: auto;
-    background-color: #26a69a;
+    background-color: #424242;
     display: flex;
     position: relative;
     align-items: center;
     border-radius: 15px;
 }
 
+.card.open {
+    background-color: #26a69a;
+}
+
 .card i {
     margin: auto;
     color: #fff;
+}
+
+.card i.hidden {
+    display: none;
 }
