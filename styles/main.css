@@ -41,6 +41,9 @@ html, body {
 
 .container .container .fa-redo:hover {
     color: #26a69a;
+    transform: rotate(90deg);
+    transition-timing-function: ease;
+    transition: 0.4s;
 }
 
 .container .container .fa-star {
