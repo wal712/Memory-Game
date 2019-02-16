@@ -1,6 +1,10 @@
 const board = document.querySelector('.board');
 const cards = document.querySelectorAll('.card');
 const moves = document.querySelector('.moves');
+const winScreen = document.querySelector('.win-screen');
+const stars = document.querySelectorAll('.fa-star');
+const redo = document.querySelector('.fa-redo');
+
 let selectedCards = [];
 let matchedCards = [];
 let numMatches = 0;
@@ -31,7 +35,7 @@ function shuffle(a) {
 }
 
 // Shuffles array of card list indices
-const nums = shuffle([...Array(cards.length).keys()]);
+let nums = shuffle([...Array(cards.length).keys()]);
 
 // Applies shuffled order to DOM
 function orderShuffle(cardList, nums) {
@@ -49,11 +53,25 @@ function flipCard(card) {
     card.firstElementChild.classList.toggle('hidden');
 }
 
+// Sets star display
+function checkStars() {
+    if (numMoves > 23) {
+        for (let star of stars) {
+            star.classList.add('hidden');
+        }
+    } else if (numMoves > 18) {
+        stars[2].classList.add('hidden');
+        stars[1].classList.add('hidden');
+    } else if (numMoves > 13) {
+        stars[2].classList.add('hidden');
+    }
+}
+
 function checkCards() {
     // If the first card has already been picked, and this is the second
     if (selectedCards.length === 2) {
+        // Match
         if (equalArrays(selectedCards[0].firstElementChild.classList, selectedCards[1].firstElementChild.classList)) {
-            console.log('match');
             for (let card of selectedCards) {
                 card.classList.toggle('match');
                 matchedCards.push(card);
@@ -61,10 +79,12 @@ function checkCards() {
             numMatches++;
         }
         numMoves++; 
+        checkStars();
         moves.textContent = `${numMoves}`;
     }
 }
 
+// Sets wrong class for incorrect pairs
 function checkWrong() {
     if (selectedCards.length === 2) {
         if (!equalArrays(selectedCards[0].firstElementChild.classList, selectedCards[1].firstElementChild.classList)) {
@@ -76,6 +96,7 @@ function checkWrong() {
     }
 }
 
+// Flips incorrect pairs and clears selectedCards
 function flipWrong() {
     if (selectedCards.length === 2) {
         // console.log('check2');
@@ -89,18 +110,18 @@ function flipWrong() {
     }
 }
 
-// 
+// Win condition checking
 function checkWin() {
     if (matchedCards.length === cards.length) {
         console.log('you win');
+        winScreen.textContent = `You won in: ${numMoves} moves!`;
     }
 }
 
+// Helper function
 function toggleWrong(card) {
     card.classList.toggle('wrong');
 }
-
-// TODO: use replace instead of toggle, replace open with closed classes
 
 // Main listener function for tile clicks
 function tileClick(evt) {
@@ -127,3 +148,33 @@ function tileClick(evt) {
 
 // Board event listener
 board.addEventListener('click', tileClick);
+
+// Listener function for Redo button
+function reset(evt) {
+    // Reset cards
+    for (let card of cards) {
+        card.classList.add('close');
+        card.classList.remove('open');
+        card.classList.remove('wrong');
+        card.classList.remove('match');
+        card.classList.add('close');
+        card.firstElementChild.classList.add('hidden');
+    }
+    selectedCards = selectedCards.slice(4);
+    matchedCards = matchedCards.slice(20);
+
+    nums = shuffle(nums);
+    orderShuffle(cards, nums);
+
+    // Scores and stars
+    numMoves = 0;
+    moves.textContent = `${numMoves}`;
+    for (let star of stars) {
+        star.classList.remove('hidden');
+    }
+
+    winScreen.textContent = '';
+}
+
+// Redo button event listener
+redo.addEventListener('click', reset);

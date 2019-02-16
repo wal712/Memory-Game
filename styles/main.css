@@ -40,12 +40,15 @@ html, body {
 }
 
 .container .container .fa-redo:hover {
-    color: #212121
+    color: #26a69a;
+}
+
+.container .container .fa-star {
+    color: #26a69a;
 }
 
 
-
-.title {
+.title, .win-screen {
     width: 100%;
     text-align: center;
 }
@@ -107,6 +110,6 @@ html, body {
     transform: rotateY(180deg);
 }
 
-.card i.hidden {
+.hidden {
     display: none;
 }
