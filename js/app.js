@@ -1,7 +1,10 @@
 const board = document.querySelector('.board');
 const cards = document.querySelectorAll('.card');
+const moves = document.querySelector('.moves');
 let selectedCards = [];
 let matchedCards = [];
+let numMatches = 0;
+let numMoves = 0;
 
 // Function to check list equality
 // https://stackoverflow.com/questions/4025893/how-to-check-identical-array-in-most-efficient-way
@@ -55,14 +58,17 @@ function checkCards() {
                 card.classList.toggle('match');
                 matchedCards.push(card);
             }
-        } 
+            numMatches++;
+        }
+        numMoves++; 
+        moves.textContent = `${numMoves}`;
     }
 }
 
 function checkWrong() {
     if (selectedCards.length === 2) {
         if (!equalArrays(selectedCards[0].firstElementChild.classList, selectedCards[1].firstElementChild.classList)) {
-            console.log('no match');
+            // console.log('no match');
             for (let card of selectedCards) {
                 card.classList.toggle('wrong');
             }
@@ -72,16 +78,24 @@ function checkWrong() {
 
 function flipWrong() {
     if (selectedCards.length === 2) {
-        console.log('check2');
+        // console.log('check2');
         for (let card of selectedCards) {
             if (card.classList.contains('wrong')) {
-                console.log('check');
+                // console.log('check');
                 flipCard(card);
             }
         }
         selectedCards = selectedCards.slice(4);
     }
 }
+
+// 
+function checkWin() {
+    if (matchedCards.length === cards.length) {
+        console.log('you win');
+    }
+}
+
 function toggleWrong(card) {
     card.classList.toggle('wrong');
 }
@@ -91,17 +105,21 @@ function toggleWrong(card) {
 // Main listener function for tile clicks
 function tileClick(evt) {
     const tile = evt.target;
-    if (tile.classList.contains("card") && !matchedCards.includes(tile) && !tile.classList.contains("open")){
-        console.log("This is a card!");
-        flipCard(tile);
-        tile.classList.remove('wrong');
-        selectedCards.push(tile);
+    if (tile.classList.contains("close") && !matchedCards.includes(tile)){
+        // console.log("This is a card!");
+        if (selectedCards.length < 2) {
+            tile.classList.remove('wrong');
+            flipCard(tile);
+            selectedCards.push(tile);
 
-        setTimeout(checkCards, 1000);
-        
-        checkWrong();
-        
-        setTimeout(flipWrong, 2000);
+            setTimeout(checkCards, 0);
+            // checkCards();
+            
+            checkWrong();
+            
+            setTimeout(flipWrong, 1500);
+            setTimeout(checkWin, 0);
+        }
     } else {
         console.log("nope");
     } 
