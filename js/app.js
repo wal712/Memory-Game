@@ -4,11 +4,30 @@ const moves = document.querySelector('.moves');
 const winScreen = document.querySelector('.win-screen');
 const stars = document.querySelectorAll('.fa-star');
 const redo = document.querySelector('.fa-redo');
+const timerspan = document.querySelector('.timer');
 
 let selectedCards = [];
 let matchedCards = [];
 let numMatches = 0;
 let numMoves = 0;
+let counter = 1;
+
+// Timer function based off of: https://gist.github.com/vivekrk/3918717
+function Timer () {
+    let timer = setInterval(function() {
+        timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
+        counter++;
+        if(ifWin()) {
+            clearInterval(timer);
+        }
+    }, 1000);
+
+    this.reset = function() {
+        counter = 1;
+    }
+}
+
+let timer = new Timer();
 
 // Function to check list equality
 // https://stackoverflow.com/questions/4025893/how-to-check-identical-array-in-most-efficient-way
@@ -106,12 +125,17 @@ function flipWrong() {
     }
 }
 
+// Boolean Helper function for win condition
+function ifWin() {
+    if (matchedCards.length === cards.length) {
+        return true;
+    }
+    return false;
+}
+
 // Win condition checking
 function checkWin() {
-    if (matchedCards.length === cards.length) {
-        console.log('you win');
-        winScreen.textContent = `You won in: ${numMoves} moves!`;
-    }
+    winScreen.textContent = `You won in: ${numMoves} moves!`;
 }
 
 // Helper function
@@ -135,7 +159,10 @@ function tileClick(evt) {
             checkWrong();
 
             setTimeout(flipWrong, 1500);
-            setTimeout(checkWin, 0);
+
+            if (ifWin()) {
+                setTimeout(checkWin, 0);
+            }
         }
     }
 }
@@ -168,6 +195,9 @@ function reset(evt) {
     }
 
     winScreen.textContent = '';
+
+    // Timer Reset
+    timer.reset();
 }
 
 // Redo button event listener

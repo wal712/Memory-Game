@@ -29,7 +29,7 @@ html, body {
 .container .container {
     margin: 0;
     width: 100%;
-    padding: 0 3rem;
+    padding: 0 5rem;
     flex-wrap: nowrap;
     justify-content: space-around;
     color: #616161;
@@ -37,6 +37,7 @@ html, body {
 
 .container .container p {
     font-weight: bold;
+    text-align: center;
 }
 
 .container .container .fa-redo:hover {
