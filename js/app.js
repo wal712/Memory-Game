@@ -55,11 +55,7 @@ function flipCard(card) {
 
 // Sets star display
 function checkStars() {
-    if (numMoves > 23) {
-        for (let star of stars) {
-            star.classList.add('hidden');
-        }
-    } else if (numMoves > 18) {
+    if (numMoves > 18) {
         stars[2].classList.add('hidden');
         stars[1].classList.add('hidden');
     } else if (numMoves > 13) {
@@ -78,7 +74,7 @@ function checkCards() {
             }
             numMatches++;
         }
-        numMoves++; 
+        numMoves++;
         checkStars();
         moves.textContent = `${numMoves}`;
     }
@@ -135,15 +131,13 @@ function tileClick(evt) {
 
             setTimeout(checkCards, 0);
             // checkCards();
-            
+
             checkWrong();
-            
+
             setTimeout(flipWrong, 1500);
             setTimeout(checkWin, 0);
         }
-    } else {
-        console.log("nope");
-    } 
+    }
 }
 
 // Board event listener
