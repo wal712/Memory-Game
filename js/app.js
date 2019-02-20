@@ -16,16 +16,6 @@ let numMatches = 0;
 let numMoves = 0;
 let counter = 1;
 
-// TODO: Ensure timer restarts when new game is selected even if player has just won
-// Timer function based off of: https://gist.github.com/vivekrk/3918717
-// let timer = setInterval(function() {
-//     timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
-//     counter++;
-//     if(ifWin()) {
-//         clearInterval(timer);
-//     }
-// }, 1000);
-
 function Timer () {
     let timer;
 
@@ -33,9 +23,6 @@ function Timer () {
         timer = setInterval(function() {
             timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
             counter++;
-            // if(ifWin()) {
-            //     clearInterval(timer);
-            // }
         }, 1000);
     }
 
@@ -128,7 +115,6 @@ function checkCards() {
 function checkWrong() {
     if (selectedCards.length === 2) {
         if (!equalArrays(selectedCards[0].firstElementChild.classList, selectedCards[1].firstElementChild.classList)) {
-            // console.log('no match');
             for (let card of selectedCards) {
                 card.classList.toggle('wrong');
             }
@@ -139,10 +125,8 @@ function checkWrong() {
 // Flips incorrect pairs and clears selectedCards
 function flipWrong() {
     if (selectedCards.length === 2) {
-        // console.log('check2');
         for (let card of selectedCards) {
             if (card.classList.contains('wrong')) {
-                // console.log('check');
                 flipCard(card);
             }
         }
@@ -168,7 +152,6 @@ function showModal() {
 function checkWin() {
 
     if (ifWin()) {
-        console.log('won');
         showModal();
         timer.stop();
     }
@@ -183,24 +166,18 @@ function toggleWrong(card) {
 function tileClick(evt) {
     const tile = evt.target;
     if (tile.classList.contains("close") && !matchedCards.includes(tile)){
-        // console.log("This is a card!");
         if (selectedCards.length < 2) {
             tile.classList.remove('wrong');
             flipCard(tile);
             selectedCards.push(tile);
 
             setTimeout(checkCards, 0);
-            // checkCards();
 
             checkWrong();
 
             setTimeout(flipWrong, 1500);
             setTimeout(checkWin, 0);
 
-            // if (ifWin()) {
-            //     console.log('won');
-            //     checkWin();
-            // }
         }
     }
 }

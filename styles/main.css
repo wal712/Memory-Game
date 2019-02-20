@@ -38,8 +38,6 @@ html, body {
     background-color: #fff;
     margin: 15% auto;
     padding: 2rem;
-    /* animation-delay: 1s;
-    animation: animatetop, 0.4s; */
 }
 
 .modal-content .time, .modal-stars {
@@ -55,12 +53,6 @@ html, body {
 .play-again:hover {
     cursor: pointer;
 }
-
-/* Add Animation from https://www.w3schools.com/howto/howto_css_modals.asp*/
-/* @keyframes animatetop {
-  0% {top: -300px; opacity: 0};
-  100% {top: 0; opacity: 1};
-} */
 
 /* Modal end */
 
@@ -152,7 +144,6 @@ html, body {
     transform: rotateY(0);
     transition-timing-function: ease;
     transition: 0.8s;
-    /* transition-delay: 500ms; */
 }
 
 .card.match {
