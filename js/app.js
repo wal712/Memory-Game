@@ -2,9 +2,10 @@ const board = document.querySelector('.board');
 const cards = document.querySelectorAll('.card');
 const moves = document.querySelector('.moves');
 const winScreen = document.querySelector('.win-screen');
-const stars = document.querySelectorAll('.fa-star');
+const stars = document.querySelectorAll('.on-screen-stars .fa-star');
 const redo = document.querySelector('.fa-redo');
 const timerspan = document.querySelector('.timer');
+const modal = document.querySelector('.modal');
 
 let selectedCards = [];
 let matchedCards = [];
@@ -12,15 +13,18 @@ let numMatches = 0;
 let numMoves = 0;
 let counter = 1;
 
+// TODO: Ensure timer restarts when new game is selected even if player has just won
 // Timer function based off of: https://gist.github.com/vivekrk/3918717
 function Timer () {
-    let timer = setInterval(function() {
-        timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
-        counter++;
-        if(ifWin()) {
-            clearInterval(timer);
-        }
-    }, 1000);
+    this.start = function () {
+        let timer = setInterval(function() {
+            timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
+            counter++;
+            if(ifWin()) {
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
 
     this.reset = function() {
         counter = 1;
@@ -28,6 +32,7 @@ function Timer () {
 }
 
 let timer = new Timer();
+timer.start();
 
 // Function to check list equality
 // https://stackoverflow.com/questions/4025893/how-to-check-identical-array-in-most-efficient-way
@@ -135,7 +140,12 @@ function ifWin() {
 
 // Win condition checking
 function checkWin() {
-    winScreen.textContent = `You won in: ${numMoves} moves!`;
+    // winScreen.textContent = `You won in: ${numMoves} moves!`;
+    // console.log('won');
+    if (ifWin()) {
+        console.log('won');
+        modal.classList.toggle('hidden');
+    }
 }
 
 // Helper function
@@ -159,10 +169,12 @@ function tileClick(evt) {
             checkWrong();
 
             setTimeout(flipWrong, 1500);
+            setTimeout(checkWin, 0);
 
-            if (ifWin()) {
-                setTimeout(checkWin, 0);
-            }
+            // if (ifWin()) {
+            //     console.log('won');
+            //     checkWin();
+            // }
         }
     }
 }
@@ -174,7 +186,6 @@ board.addEventListener('click', tileClick);
 function reset(evt) {
     // Reset cards
     for (let card of cards) {
-        card.classList.add('close');
         card.classList.remove('open');
         card.classList.remove('wrong');
         card.classList.remove('match');
