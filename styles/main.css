@@ -31,12 +31,12 @@ html, body {
 }
 
 .modal-content {
-    width: 60%;
+    width: 50%;
     height: auto;
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    margin: 25% auto;
+    margin: 15% auto;
     padding: 2rem;
     /* animation-delay: 1s;
     animation: animatetop, 0.4s; */
@@ -99,7 +99,7 @@ html, body {
     transition: 0.4s;
 }
 
-.container .container .fa-star {
+.fa-star {
     color: #26a69a;
 }
 

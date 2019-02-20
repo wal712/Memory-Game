@@ -3,9 +3,12 @@ const cards = document.querySelectorAll('.card');
 const moves = document.querySelector('.moves');
 const winScreen = document.querySelector('.win-screen');
 const stars = document.querySelectorAll('.on-screen-stars .fa-star');
+const modalStars = document.querySelectorAll('.modal-stars .fa-star');
 const redo = document.querySelector('.fa-redo');
 const timerspan = document.querySelector('.timer');
+const modalTime = document.querySelector('.time');
 const modal = document.querySelector('.modal');
+const modalButton = document.querySelector('.play-again');
 
 let selectedCards = [];
 let matchedCards = [];
@@ -15,15 +18,29 @@ let counter = 1;
 
 // TODO: Ensure timer restarts when new game is selected even if player has just won
 // Timer function based off of: https://gist.github.com/vivekrk/3918717
+// let timer = setInterval(function() {
+//     timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
+//     counter++;
+//     if(ifWin()) {
+//         clearInterval(timer);
+//     }
+// }, 1000);
+
 function Timer () {
+    let timer;
+
     this.start = function () {
-        let timer = setInterval(function() {
+        timer = setInterval(function() {
             timerspan.textContent = `${Math.floor(counter/60)}:${counter%60}`;
             counter++;
-            if(ifWin()) {
-                clearInterval(timer);
-            }
+            // if(ifWin()) {
+            //     clearInterval(timer);
+            // }
         }, 1000);
+    }
+
+    this.stop = function () {
+        clearInterval(timer);
     }
 
     this.reset = function() {
@@ -81,9 +98,12 @@ function flipCard(card) {
 function checkStars() {
     if (numMoves > 18) {
         stars[2].classList.add('hidden');
+        modalStars[2].classList.add('hidden');
         stars[1].classList.add('hidden');
+        modalStars[1].classList.add('hidden');
     } else if (numMoves > 13) {
         stars[2].classList.add('hidden');
+        modalStars[2].classList.add('hidden');
     }
 }
 
@@ -138,12 +158,19 @@ function ifWin() {
     return false;
 }
 
+// Function that displays Modal
+function showModal() {
+    modalTime.textContent = `You won in: ${Math.floor(counter/60)} minutes ${counter%60} seconds!`
+    modal.classList.remove('hidden');
+}
+
 // Win condition checking
 function checkWin() {
 
     if (ifWin()) {
         console.log('won');
-        modal.classList.remove('hidden');
+        showModal();
+        timer.stop();
     }
 }
 
@@ -204,14 +231,25 @@ function reset(evt) {
         star.classList.remove('hidden');
     }
 
+    for (let star of modalStars) {
+        star.classList.remove('hidden');
+    }
+
     winScreen.textContent = '';
 
     // Timer Reset
+    timer.stop();
     timer.reset();
+    timer.start();
+
+    modal.classList.add('hidden');
 }
 
 // Redo button event listener
 redo.addEventListener('click', reset);
+
+// Play again button event Listener
+modalButton.addEventListener('click', reset);
 
 // Listener function for modal event listener
 function onClick(evt) {
