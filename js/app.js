@@ -140,11 +140,10 @@ function ifWin() {
 
 // Win condition checking
 function checkWin() {
-    // winScreen.textContent = `You won in: ${numMoves} moves!`;
-    // console.log('won');
+
     if (ifWin()) {
         console.log('won');
-        modal.classList.toggle('hidden');
+        modal.classList.remove('hidden');
     }
 }
 
@@ -213,3 +212,14 @@ function reset(evt) {
 
 // Redo button event listener
 redo.addEventListener('click', reset);
+
+// Listener function for modal event listener
+function onClick(evt) {
+    if (evt.target === modal) {
+        console.log('modal hide');
+        modal.classList.add('hidden');
+    }
+}
+
+// Modal event Listener
+modal.addEventListener('click', onClick);
